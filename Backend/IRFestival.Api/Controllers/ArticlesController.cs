@@ -13,10 +13,12 @@ namespace IRFestival.Api.Controllers
 
         public ArticlesController(IConfiguration config)
         {
-            var task = Task.Run(async () =>
+            var task = Task.Run(async () => 
             {
-                _cosmos = new(config.GetConnectionString("CosmosConnection"));
-                _websiteArticlesContainer = _cosmos.GetContainer("IRFestivalArticles", "WebsiteArticles");
+                _cosmos = new CosmosClient(config.GetConnectionString("CosmosConnection"));
+                Database database = await _cosmos.CreateDatabaseIfNotExistsAsync("IRFestivalArticles");
+
+                _websiteArticlesContainer = await database.CreateContainerIfNotExistsAsync("WebsiteArticles", "/tag");
             });
             task.Wait();
         }
