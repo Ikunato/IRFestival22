@@ -48,7 +48,7 @@ namespace IRFestival.Api.Controllers
         public async Task<ActionResult> GetStages()
         {
             var stages = await _ctx.Stages.ToListAsync();
-            return Ok(FestivalDataSource.Current.Stages);
+            return Ok(stages);
         }
 
         [HttpPost("Favorite")]
