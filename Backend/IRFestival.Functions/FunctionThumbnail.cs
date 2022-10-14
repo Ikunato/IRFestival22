@@ -6,7 +6,7 @@ using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 using System.IO;
 
-namespace IRFestival.Functions2
+namespace IRFestival.Functions
 {
     public class FunctionThumbnail
     {
