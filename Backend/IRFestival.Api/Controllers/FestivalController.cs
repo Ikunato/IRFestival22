@@ -6,6 +6,7 @@ using IRFestival.Api.Data;
 using IRFestival.Api.Domain;
 using IRFestival.Api.Context;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.ApplicationInsights;
 
 namespace IRFestival.Api.Controllers
 {
@@ -14,10 +15,12 @@ namespace IRFestival.Api.Controllers
     public class FestivalController : ControllerBase
     {
         private FestivalDbContext _ctx;
+        private TelemetryClient _telemetryClient;
 
-        public FestivalController(FestivalDbContext festivalContext)
+        public FestivalController(FestivalDbContext festivalContext, TelemetryClient telemetry)
         {
             _ctx = festivalContext;
+            _telemetryClient = telemetry;
         }
 
 
@@ -37,8 +40,12 @@ namespace IRFestival.Api.Controllers
 
         [HttpGet("Artists")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(IEnumerable<Artist>))]
-        public async  Task<ActionResult> GetArtists()
+        public async  Task<ActionResult> GetArtists(bool? withRatings)
         {
+            if (withRatings.HasValue && withRatings.Value)
+                _telemetryClient.TrackEvent($"List of artists with ratings");
+            else
+                _telemetryClient.TrackEvent($"List of artists with ratings");
             var artists = await _ctx.Artists.ToListAsync();
             return Ok(artists);
         }

@@ -24,6 +24,7 @@ builder.Services.AddDbContext<FestivalDbContext>(options =>
             );
         });
 });
+builder.Services.AddApplicationInsightsTelemetry(builder.Configuration["APPLICATIONINSIGHTS_CONNECTION_STRING"]);
 
 var app = builder.Build();
 

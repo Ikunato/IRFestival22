@@ -4,20 +4,31 @@ import { Observable } from 'rxjs';
 import { shareReplay, map, groupBy } from 'rxjs/operators';
 import { Artist } from 'src/app/api/models/artist.model';
 import { Schedule, ScheduleItem } from 'src/app/api/models/schedule.model';
+import { ApplicationInsights } from '@microsoft/applicationinsights-web';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html'
 })
 export class HomeComponent implements OnInit {
+  AppInsight: ApplicationInsights;
   artists$: Observable<Artist[]>;
-
+  // articles$: Observable<Article>;
   private schedule$: Observable<ScheduleItem[]>;
   scheduleByDate$: Observable<{date: string, items: ScheduleItem[]}[]>;
 
-  constructor(private festivalApiService: FestivalApiService) { }
+  constructor(private festivalApiService: FestivalApiService) 
+  {
+    this.AppInsight = new ApplicationInsights({config: {
+      connectionString: environment.connectionstringAppInsight,
+      enableAutoRouteTracking: true
+    }})
+  }
 
   ngOnInit(): void {
+    this.AppInsight.loadAppInsights();
+    this.AppInsight.trackPageView();
     this.artists$ = this.festivalApiService
       .getArtists()
       .pipe(shareReplay());
@@ -31,6 +42,8 @@ export class HomeComponent implements OnInit {
     this.scheduleByDate$ = this.schedule$.pipe(
       map(s => this.groupByDate(s))
     )
+// this.
+
   }
 
   private groupByDate(scheduleItems: ScheduleItem[]): {date: string, items: ScheduleItem[]}[] {
