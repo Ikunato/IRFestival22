@@ -1,3 +1,4 @@
+using Azure.Identity;
 using Azure.Storage;
 using Azure.Storage.Blobs;
 using IRFestival.Api.Common;
@@ -8,7 +9,11 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+//KeyVault
+builder.Configuration.AddAzureKeyVault(
+    new Uri($"https://irfestivalkeyvaultdd2.vault.azure.net/"),
+    new DefaultAzureCredential(new DefaultAzureCredentialOptions())
+    );
 builder.Services.AddCors();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -39,8 +44,6 @@ builder.Services.AddSingleton(p => new BlobServiceClient(new Uri(blobUri), stora
 builder.Services.AddSingleton(p => storageSharedKeyCredential);
 builder.Services.AddSingleton<BlobUtility>();
 builder.Services.Configure<BlobSettingsOptions>(builder.Configuration.GetSection("Storage"));
-
-
 
 var app = builder.Build();
 
