@@ -2,7 +2,7 @@
   "profiles": {
     "IRFestival.Functions": {
       "commandName": "Project",
-      "commandLineArgs": "--port 7251",
+      "commandLineArgs": "--port 7230",
       "launchBrowser": false
     }
   }
