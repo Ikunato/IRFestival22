@@ -22,13 +22,12 @@ namespace IRFestival.Api.Controllers
 
         [HttpGet]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(string[]))]
-        public async Task<ActionResult> GetAllPictureUrls()
+        public string[] GetAllPictureUrls()
         {
-            var container = _blob.GetPicturesContainer();
-            var result = container.GetBlobs()
+            var container = _blob.GetThumbsContainer();
+            return container.GetBlobs()
                             .Select(x => _blob.GetSasUri(container, x.Name))
                             .ToArray();
-            return Ok(result);
         }
 
         [HttpPost]

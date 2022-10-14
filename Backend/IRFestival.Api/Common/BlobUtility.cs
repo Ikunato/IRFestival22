@@ -27,6 +27,9 @@ namespace IRFestival.Api.Common
 
         public BlobContainerClient GetPicturesContainer() => Client.GetBlobContainerClient(Options.PicturesContainer);
 
+        public BlobContainerClient GetThumbsContainer() => Client.GetBlobContainerClient(Options.ThumbsContainer);
+
+
         public string GetSasUri(BlobContainerClient container, string name)
         {
             BlobSasBuilder sasBuilder = new()
