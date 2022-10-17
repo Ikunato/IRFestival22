@@ -15,6 +15,6 @@ export class AppSettingsApiService {
 
   getSettings(): Observable<AppSettings> {
     const headers = new HttpHeaders().set('Ocp-Aim-Subscription-Key', '21995f4b9e2944309c26710e615aec93');
-    return this.httpClient.get<AppSettings>(this.baseUrl);
+    return this.httpClient.get<AppSettings>(this.baseUrl, {'headers' : headers});
   }
 }
