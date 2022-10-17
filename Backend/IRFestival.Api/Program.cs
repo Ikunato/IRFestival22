@@ -31,6 +31,10 @@ builder.Services.AddDbContext<FestivalDbContext>(options =>
 });
 builder.Services.AddApplicationInsightsTelemetry(builder.Configuration["APPLICATIONINSIGHTS_CONNECTION_STRING"]);
 
+
+//AppConfig
+builder.Configuration.AddAzureAppConfiguration(builder.Configuration.GetConnectionString("AppConfigConnection"));
+
 //Storage
 var storageSharedKeyCredential = new StorageSharedKeyCredential(
     builder.Configuration.GetValue<string>("Storage:AccountName"),
@@ -42,8 +46,6 @@ builder.Services.AddSingleton(p => storageSharedKeyCredential);
 builder.Services.AddSingleton<BlobUtility>();
 builder.Services.Configure<BlobSettingsOptions>(builder.Configuration.GetSection("Storage"));
 
-//AppConfig
-builder.Configuration.AddAzureAppConfiguration(builder.Configuration.GetConnectionString("AppConfigConnection"));
 
 var app = builder.Build();
 
