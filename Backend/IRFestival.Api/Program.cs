@@ -33,7 +33,7 @@ builder.Services.AddApplicationInsightsTelemetry(builder.Configuration["APPLICAT
 
 
 //AppConfig
-builder.Configuration.AddAzureAppConfiguration(builder.Configuration.GetConnectionString("AppConfigConnection"));
+//builder.Configuration.AddAzureAppConfiguration(builder.Configuration.GetConnectionString("AppConfigConnection"));
 
 //Storage
 var storageSharedKeyCredential = new StorageSharedKeyCredential(
