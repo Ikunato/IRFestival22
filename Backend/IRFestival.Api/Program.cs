@@ -16,6 +16,13 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Configuration.AddAzureKeyVault(
+    new Uri($"https://irfestivalkeyvaultdd2.vault.azure.net/"),
+    new DefaultAzureCredential(new DefaultAzureCredentialOptions())
+    );
+
+
 builder.Services.Configure<AppSettingsOptions>(builder.Configuration.GetSection("AppSettings"));
 builder.Services.AddDbContext<FestivalDbContext>(options =>
 {
@@ -60,10 +67,10 @@ if (app.Environment.IsDevelopment())
 else if (!app.Environment.IsDevelopment())
 {
     //KeyVault
-    builder.Configuration.AddAzureKeyVault(
-        new Uri($"https://irfestivalkeyvaultdd2.vault.azure.net/"),
-        new DefaultAzureCredential(new DefaultAzureCredentialOptions())
-        );
+    //builder.Configuration.AddAzureKeyVault(
+    //    new Uri($"https://irfestivalkeyvaultdd2.vault.azure.net/"),
+    //    new DefaultAzureCredential(new DefaultAzureCredentialOptions())
+    //    );
 }
 
 app.UseHttpsRedirection();
