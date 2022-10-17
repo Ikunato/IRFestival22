@@ -5,6 +5,7 @@ using IRFestival.Api.Common;
 using IRFestival.Api.Context;
 using IRFestival.Api.Options;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,6 +41,9 @@ builder.Services.AddSingleton(p => new BlobServiceClient(new Uri(blobUri), stora
 builder.Services.AddSingleton(p => storageSharedKeyCredential);
 builder.Services.AddSingleton<BlobUtility>();
 builder.Services.Configure<BlobSettingsOptions>(builder.Configuration.GetSection("Storage"));
+
+//AppConfig
+builder.Configuration.AddAzureAppConfiguration(builder.Configuration.GetConnectionString("AppConfigConnection"));
 
 var app = builder.Build();
 
