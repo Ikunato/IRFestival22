@@ -9,11 +9,7 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-//KeyVault
-builder.Configuration.AddAzureKeyVault(
-    new Uri($"https://irfestivalkeyvaultdd2.vault.azure.net/"),
-    new DefaultAzureCredential(new DefaultAzureCredentialOptions())
-    );
+
 builder.Services.AddCors();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -54,6 +50,14 @@ app.UseSwaggerUI();
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
+}
+else if (!app.Environment.IsDevelopment())
+{
+    //KeyVault
+    builder.Configuration.AddAzureKeyVault(
+        new Uri($"https://irfestivalkeyvaultdd2.vault.azure.net/"),
+        new DefaultAzureCredential(new DefaultAzureCredentialOptions())
+        );
 }
 
 app.UseHttpsRedirection();
